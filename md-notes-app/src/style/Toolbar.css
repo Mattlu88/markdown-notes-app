@@ -1,0 +1,17 @@
+#toolbar {
+  border-bottom: solid 1px whitesmoke;
+}
+
+#toolbar > button {
+  color: white;
+  background-color: #00cccc;
+  border:none;
+  border-radius: 5px;
+  box-shadow: none;
+  padding: 10px 20px;
+  margin: 10px;
+}
+
+#toolbar > button:hover {
+  background-color: darkcyan;
+}

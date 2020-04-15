@@ -1,0 +1,32 @@
+main {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+main > aside {
+  flex: 1;
+  border-right: solid 1px lightblue;
+}
+
+main > section {
+  flex: 3;
+  padding: 0px 20px;
+}
+
+tr {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+tbody > tr:hover {
+  background-color: lightgrey;
+}
+
+.note-title {
+  font-weight: bold;
+}
+
+.current-note {
+  background-color: whitesmoke;
+}

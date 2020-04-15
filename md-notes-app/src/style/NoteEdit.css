@@ -1,0 +1,17 @@
+
+#note-title-input, #note-content-input {
+  width: 100%;
+  padding: 20px 0px;
+  border: none;
+  outline: none
+}
+
+#note-title-input {
+  font-size: 1em;
+  font-weight: bold;
+}
+
+#note-content-input {
+  resize: none;
+  height: 80vh;
+}
