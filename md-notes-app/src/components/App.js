@@ -70,6 +70,9 @@ function App() {
           />
         </section>
       </main>
+      <footer>
+
+      </footer>
     </div>
   );
 }
