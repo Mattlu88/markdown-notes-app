@@ -19,14 +19,33 @@ const initNotes = [
     content: 'Data is useless without the ability to visualize and act on it. The success of future industries will couple advanced data collection with a better user experience, and the data table comprises much of this user experience.',
     createdDate: '13/04/2020',
     createdBy: 'Fei Lu'
+  },
+  {
+    id: 3,
+    title: 'What is the future',
+    content: 'Data is useless without the ability to visualize and act on it. The success of future industries will couple advanced data collection with a better user experience, and the data table comprises much of this user experience.',
+    createdDate: '13/04/2020',
+    createdBy: 'Fei Lu'
   }
 ]
 function App() {
   const [noteList, setNoteList] = useState(initNotes)
   const [note, setNote] = useState(noteList[0])
+  const [noteEditable, toggleNoteEditable] = useState(false)
 
-  const handleClickNote = (event, clickedNote) => {
+  const handleClickNote = (clickedNote) => {
+    console.log(clickedNote)
+    const saveCurrentNote = () => {
+      if (noteList.find((n) => n.id === note.id)) {
+        setNoteList(noteList.map((n) =>
+         n.id === note.id ? note : n))
+    } else {
+      setNoteList(noteList.concat(note))
+    }
+  }
+    saveCurrentNote()
     setNote(clickedNote)
+    toggleNoteEditable(false)
   }
 
   const createNewNote = () => {
@@ -40,6 +59,7 @@ function App() {
     }
     setNoteList(noteList.concat(newNote))
     setNote(newNote)
+    toggleNoteEditable(!noteEditable)
   }
 
   return (
@@ -59,15 +79,23 @@ function App() {
           />
         </aside>
         <section>
-          <Toolbar 
-            note={note}
-            noteList={noteList}
-            setNoteList={setNoteList}
-          />
-          <NoteEdit 
-            note={note}
-            setNote={setNote}
-          />
+          {noteList.length > 0 &&
+            <Toolbar 
+              note={note}
+              setCurrentNote={setNote}
+              noteList={noteList}
+              setNoteList={setNoteList}
+              noteEditable={noteEditable}
+              toggleNoteEditable={toggleNoteEditable}
+            />
+          }
+          {noteList.length > 0 &&
+            <NoteEdit 
+              note={note}
+              setNote={setNote}
+              noteEditable={noteEditable}
+            />
+          }
         </section>
       </main>
       <footer>

@@ -2,11 +2,12 @@ import React from 'react'
 
 const Note = (props) => {
   const { note, onClick, currentNote } = props
+
   const style = note.id === currentNote.id ? 'current-note' : ''
   return (  
     <tr 
       className={style}
-      onClick={(event) => onClick(event, note)}>
+      onClick={() => onClick(note)}>
       <td className="note-title">
         {(!note.title) ? 'Untitle' : note.title}
       </td>
@@ -33,15 +34,17 @@ const Notes = (props) => {
             <th>All Notes</th>
           </tr>
         </thead>
-        <tbody>
-          {sortedNotes.map((note) =>
-            <Note 
-              key={note.id}
-              note={note}
-              onClick={onClick}
-              currentNote={currentNote}
-            />)}
-        </tbody>
+        { notes.length > 0 && 
+          <tbody>
+            {sortedNotes.map((note) =>
+              <Note 
+                key={note.id}
+                note={note}
+                onClick={onClick}
+                currentNote={currentNote}
+              />)}
+          </tbody>
+        }
       </table>
     </div>
   )
