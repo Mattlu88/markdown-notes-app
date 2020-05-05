@@ -1,32 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Notes from './Notes';
 import NoteEdit from './NoteEdit';
 import Toolbar from './Toolbar';
 import '../style/App.css';
+import noteService from '../services/notes'
 
-const initNotes = [
-  {
-    id: 1,
-    title: 'Best JavaScript books in 2020',
-    content: 'This is an up-to-date list of recommended books for learning JavaScript',
-    createdDate: '14/04/2020',
-    createdBy: 'Fei Lu'
-  },
-  {
-    id: 2,
-    title: 'How to design better data tables',
-    content: 'Data is useless without the ability to visualize and act on it. The success of future industries will couple advanced data collection with a better user experience, and the data table comprises much of this user experience.',
-    createdDate: '13/04/2020',
-    createdBy: 'Fei Lu'
-  }
-]
 function App() {
-  const [noteList, setNoteList] = useState(initNotes)
+  const [noteList, setNoteList] = useState([])
   const [note, setNote] = useState(noteList[0])
+  const [noteEditable, toggleNoteEditable] = useState(false)
 
-  const handleClickNote = (event, clickedNote) => {
+  const handleClickNote = (clickedNote) => {
+
+    const newNoteList = noteService.getNewNoteList(note, noteList)
+    setNoteList(newNoteList)
     setNote(clickedNote)
+    toggleNoteEditable(false)
+    localStorage.setItem("notes", JSON.stringify(newNoteList))
   }
 
   const createNewNote = () => {
@@ -35,12 +26,23 @@ function App() {
       id: uuidv4(),
       title: '',
       content: '',
-      createdDate: today,
+      createdDate: Date.parse(today),
       createdBy: 'Fei Lu'
     }
-    setNoteList(noteList.concat(newNote))
+    setNoteList([newNote].concat(noteList))
     setNote(newNote)
+    toggleNoteEditable(!noteEditable)
   }
+
+  useEffect(() => {  
+    const initNoteList = JSON.parse(localStorage.getItem('notes'))
+    console.log(initNoteList)
+    if (initNoteList.length > 0) {
+      setNoteList(initNoteList
+        .sort((a, b) => b.createdDate - a.createdDate))
+      setNote(initNoteList[0])
+    }
+  }, [])
 
   return (
     <div className="App">
@@ -59,15 +61,23 @@ function App() {
           />
         </aside>
         <section>
-          <Toolbar 
-            note={note}
-            noteList={noteList}
-            setNoteList={setNoteList}
-          />
-          <NoteEdit 
-            note={note}
-            setNote={setNote}
-          />
+          {noteList.length > 0 &&
+            <Toolbar 
+              note={note}
+              setCurrentNote={setNote}
+              noteList={noteList}
+              setNoteList={setNoteList}
+              noteEditable={noteEditable}
+              toggleNoteEditable={toggleNoteEditable}
+            />
+          }
+          {noteList.length > 0 &&
+            <NoteEdit 
+              note={note}
+              setNote={setNote}
+              noteEditable={noteEditable}
+            />
+          }
         </section>
       </main>
       <footer>

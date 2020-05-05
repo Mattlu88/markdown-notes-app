@@ -2,11 +2,14 @@ import React from 'react'
 
 const Note = (props) => {
   const { note, onClick, currentNote } = props
+
+  console.log('rendering note')
   const style = note.id === currentNote.id ? 'current-note' : ''
+  const date = new Date(note.createdDate)
   return (  
     <tr 
       className={style}
-      onClick={(event) => onClick(event, note)}>
+      onClick={() => onClick(note)}>
       <td className="note-title">
         {(!note.title) ? 'Untitle' : note.title}
       </td>
@@ -14,7 +17,7 @@ const Note = (props) => {
         {note.content}
       </td>
       <td>
-        {note.createdDate.toString()}
+        {date.toLocaleString("en-GB")}
       </td>
     </tr>
   )
@@ -22,9 +25,6 @@ const Note = (props) => {
 
 const Notes = (props) => {
   const { notes, onClick, currentNote } = props
-  const sortedNotes = notes
-    .concat()
-    .sort((a, b) => b.createdDate - a.createdDate)
   return (
     <div>
       <table>
@@ -33,15 +33,17 @@ const Notes = (props) => {
             <th>All Notes</th>
           </tr>
         </thead>
-        <tbody>
-          {sortedNotes.map((note) =>
-            <Note 
-              key={note.id}
-              note={note}
-              onClick={onClick}
-              currentNote={currentNote}
-            />)}
-        </tbody>
+        { notes.length > 0 && 
+          <tbody>
+            {notes.map((note) =>
+              <Note 
+                key={note.id}
+                note={note}
+                onClick={onClick}
+                currentNote={currentNote}
+              />)}
+          </tbody>
+        }
       </table>
     </div>
   )

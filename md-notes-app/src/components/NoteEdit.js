@@ -2,7 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import '../style/NoteEdit.css'
 
 const NoteEdit = (props) => {
-  const { note, setNote } = props
+  const { note, setNote, noteEditable } = props
   
   const contentInput = useRef(null)
   const handleTitleChange  = (event) => {
@@ -26,6 +26,7 @@ const NoteEdit = (props) => {
           value={note.title} 
           onChange={handleTitleChange}
           placeholder="Title"
+          readOnly={!noteEditable}
         />
       </div>
       <div>
@@ -36,6 +37,7 @@ const NoteEdit = (props) => {
           placeholder="Start writing" 
           autoFocus={true}
           ref={contentInput}
+          readOnly={!noteEditable}
         />
       </div>
     </div>
