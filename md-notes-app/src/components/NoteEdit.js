@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from 'react'
-import '../style/NoteEdit.css'
+import showdown from 'showdown'
+import './NoteEdit.css'
 
 const NoteEdit = (props) => {
   const { note, setNote, noteEditable } = props
@@ -11,6 +12,11 @@ const NoteEdit = (props) => {
 
   const handleContentChange  = (event) => {
     setNote({ ...note, content: event.target.value})
+  }
+
+  const createNoteInHTML = () => {
+    const noteInHTML = new showdown.Converter().makeHtml(note.content)
+    return {__html: noteInHTML }
   }
 
   useEffect(() => {
@@ -30,15 +36,23 @@ const NoteEdit = (props) => {
         />
       </div>
       <div>
-        <textarea 
-          id="note-content-input" 
-          value={note.content} 
-          onChange={handleContentChange} 
-          placeholder="Start writing" 
-          autoFocus={true}
-          ref={contentInput}
-          readOnly={!noteEditable}
-        />
+        {!noteEditable ? 
+          <div
+            id="note-content-input"
+            ref={contentInput}
+            dangerouslySetInnerHTML={createNoteInHTML()}
+          >
+          </div> :
+          <textarea 
+            id="note-content-input"
+            value={note.content}
+            onChange={handleContentChange} 
+            placeholder="Start writing" 
+            autoFocus={true}
+            ref={contentInput}
+            readOnly={!noteEditable}
+          />
+        }
       </div>
     </div>
   )

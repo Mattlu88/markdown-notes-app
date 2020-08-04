@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import Notes from './Notes';
-import NoteEdit from './NoteEdit';
-import Toolbar from './Toolbar';
-import '../style/App.css';
-import noteService from '../services/notes'
+import Notes from './components/Notes';
+import NoteEdit from './components/NoteEdit';
+import Toolbar from './components/Toolbar';
+import './App.css';
+import noteService from './services/notes'
 
 function App() {
   const [noteList, setNoteList] = useState([])

@@ -1,5 +1,5 @@
 import React from 'react'
-import '../style/Toolbar.css'
+import './Toolbar.css'
 import noteService from '../services/notes'
 
 const Toolbar = (props) => {
