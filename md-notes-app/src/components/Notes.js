@@ -1,4 +1,5 @@
 import React from 'react'
+import './Notes.css'
 
 const Note = (props) => {
   const { note, onClick, currentNote } = props
@@ -26,7 +27,7 @@ const Note = (props) => {
 const Notes = (props) => {
   const { notes, onClick, currentNote } = props
   return (
-    <div>
+    <div className="notes-container">
       <table>
         <thead>
           <tr>
