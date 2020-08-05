@@ -29,11 +29,6 @@ const Notes = (props) => {
   return (
     <div className="notes-container">
       <table>
-        <thead>
-          <tr>
-            <th>All Notes</th>
-          </tr>
-        </thead>
         { notes.length > 0 && 
           <tbody>
             {notes.map((note) =>

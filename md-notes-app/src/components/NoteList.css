@@ -1,0 +1,12 @@
+header {
+  height: 4rem;
+}
+
+main {
+  min-height: calc(100vh - 7rem);
+}
+
+nav {
+  height: 3rem;
+}
+
