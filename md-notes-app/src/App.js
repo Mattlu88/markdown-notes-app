@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import Notes from './components/Notes';
-import NoteEdit from './components/NoteEdit';
-import Toolbar from './components/Toolbar';
+import NoteList from './components/NoteList';
+import NoteDetails from './components/NoteDetails';
 import './App.css';
 import noteService from './services/notes'
 
@@ -10,7 +9,7 @@ function App() {
   const [noteList, setNoteList] = useState([])
   const [note, setNote] = useState(noteList[0])
   const [noteEditable, toggleNoteEditable] = useState(false)
-
+  const [hideDetails, toggleHideDetails] = useState(true)
   const handleClickNote = (clickedNote) => {
 
     const newNoteList = noteService.getNewNoteList(note, noteList)
@@ -18,6 +17,7 @@ function App() {
     setNote(clickedNote)
     toggleNoteEditable(false)
     localStorage.setItem("notes", JSON.stringify(newNoteList))
+    toggleHideDetails(!hideDetails)
   }
 
   const createNewNote = () => {
@@ -32,11 +32,11 @@ function App() {
     setNoteList([newNote].concat(noteList))
     setNote(newNote)
     toggleNoteEditable(!noteEditable)
+    toggleHideDetails(!hideDetails)
   }
 
   useEffect(() => {  
     const initNoteList = JSON.parse(localStorage.getItem('notes'))
-    console.log(initNoteList)
     if (initNoteList.length > 0) {
       setNoteList(initNoteList
         .sort((a, b) => b.createdDate - a.createdDate))
@@ -46,43 +46,23 @@ function App() {
 
   return (
     <div className="App">
-      <nav>
-        <div>
-          <input type="text" placeholder="search" />
-        </div>
-        <button onClick={createNewNote}>New Note</button>
-      </nav>
-      <main>
-        <aside>
-          <Notes 
-            notes={noteList}
-            onClick={handleClickNote}
-            currentNote={note}
-          />
-        </aside>
-        <section>
-          {noteList.length > 0 &&
-            <Toolbar 
-              note={note}
-              setCurrentNote={setNote}
-              noteList={noteList}
-              setNoteList={setNoteList}
-              noteEditable={noteEditable}
-              toggleNoteEditable={toggleNoteEditable}
-            />
-          }
-          {noteList.length > 0 &&
-            <NoteEdit 
-              note={note}
-              setNote={setNote}
-              noteEditable={noteEditable}
-            />
-          }
-        </section>
-      </main>
-      <footer>
-
-      </footer>
+      { hideDetails ? 
+        <NoteList 
+          createNewNote={createNewNote}
+          noteList={noteList}
+          handleClickNote={handleClickNote}
+          currentNote={note}
+        /> :
+        <NoteDetails
+          note={note}
+          setNote={setNote}
+          noteList={noteList}
+          setNoteList={setNoteList}
+          noteEditable={noteEditable}
+          toggleNoteEditable={toggleNoteEditable}
+          backToList={toggleHideDetails}
+        />
+      }
     </div>
   );
 }

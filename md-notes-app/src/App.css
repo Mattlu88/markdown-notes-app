@@ -1,11 +1,4 @@
-main {
-  display: flex;
-  flex-wrap: wrap;
-  height:90vh;
-}
-
 main > aside {
-  flex: 1;
   border-right: solid 1px lightblue;
   height:inherit;
   overflow-y:auto;
@@ -14,31 +7,7 @@ main > aside {
 main > section {
   flex: 3;
   padding: 0px 20px;
-  height: 85vh;
 }
 
-tr {
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-}
 
-tbody > tr {
-  height: 100px;
-  overflow: hidden;
-}
 
-tbody > tr:hover {
-  background-color: lightgrey;
-}
- td {
-   word-break: break-word;
- }
-
-.note-title {
-  font-weight: bold;
-}
-
-.current-note {
-  background-color: whitesmoke;
-}

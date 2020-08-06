@@ -9,7 +9,8 @@ const Toolbar = (props) => {
     noteList,
     setNoteList,
     noteEditable,
-    toggleNoteEditable } = props
+    toggleNoteEditable,
+    backToList } = props
 
   const handleEditNote = () => {
     toggleNoteEditable(!noteEditable)
@@ -42,13 +43,18 @@ const Toolbar = (props) => {
   }
   return (
     <div id="toolbar">
-      { !noteEditable && 
-        <button onClick={handleEditNote}>Edit</button> }
-      { noteEditable && 
-        <button onClick={handleSaveNote}>Save</button> }
-      { noteEditable && 
-        <button onClick={handleCancelEdit}>Cancel</button> }
-      <button onClick={handleDeletNote}>Delete</button>
+      <div>
+        <button onClick={() => backToList(true)}>Back</button>
+      </div>
+      <div>
+        { !noteEditable && 
+          <button onClick={handleEditNote}>Edit</button> }
+        { noteEditable && 
+          <button onClick={handleSaveNote}>Save</button> }
+        { noteEditable && 
+          <button onClick={handleCancelEdit}>Cancel</button> }
+        <button onClick={handleDeletNote}>Delete</button>
+      </div>
     </div> 
   )
 }

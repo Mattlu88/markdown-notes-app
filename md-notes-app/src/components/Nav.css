@@ -1,0 +1,14 @@
+.nav-btns {
+  display: flex;
+
+}
+
+.nav-btns div {
+  flex: 1 0 auto;
+}
+
+.btn {
+  background: transparent;
+  border: none;
+  width: 100%;
+}
