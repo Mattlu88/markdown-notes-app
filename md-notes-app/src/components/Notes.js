@@ -1,16 +1,16 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './Notes.css'
 
 const Note = (props) => {
   const { note, onClick, currentNote } = props
-
-  console.log('rendering note')
   const style = note.id === currentNote.id ? 'current-note' : ''
   const date = new Date(note.createdDate)
+
   return (  
     <tr 
       className={style}
-      onClick={() => onClick(note)}>
+      onClick={() => onClick(note)}
+      id={note.id}>
       <td className="note-title">
         {(!note.title) ? 'Untitle' : note.title}
       </td>
@@ -26,6 +26,12 @@ const Note = (props) => {
 
 const Notes = (props) => {
   const { notes, onClick, currentNote } = props
+  useEffect(() => {
+    if (currentNote) {
+      const currentTrElement = document.getElementById(currentNote.id)
+      currentTrElement.scrollIntoView()
+    }
+  }, [])
   return (
     <div className="notes-container">
       <table>

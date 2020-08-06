@@ -1,6 +1,6 @@
 import React from 'react';
 
-const NewNote = (props) => {
+const CreateBtn = (props) => {
   const { createNewNote } = props;
 
   return (
@@ -10,4 +10,4 @@ const NewNote = (props) => {
   )
 }
 
-export default NewNote;
+export default CreateBtn;

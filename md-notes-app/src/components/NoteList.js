@@ -1,6 +1,6 @@
 import React from 'react';
 import Title from './Title';
-import NewNote from './NewNote';
+import CreateBtn from './CreateBtn';
 import Search from './Search';
 import Notes from './Notes';
 import Nav from './Nav';
@@ -17,7 +17,7 @@ const NoteList = (props) => {
     <div>
       <header>
         <Title />
-        <NewNote onClick={createNewNote}/>
+        <CreateBtn createNewNote={createNewNote}/>
       </header>
       <main>
         <Search />

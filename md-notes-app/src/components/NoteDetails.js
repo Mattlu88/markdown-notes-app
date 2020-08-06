@@ -10,6 +10,7 @@ const NoteDetails = (props) => {
     setNoteList,
     noteEditable,
     toggleNoteEditable,
+    backToList,
   } = props;
 
   return (
@@ -23,6 +24,7 @@ const NoteDetails = (props) => {
               setNoteList={setNoteList}
               noteEditable={noteEditable}
               toggleNoteEditable={toggleNoteEditable}
+              backToList={backToList}
             />
           }
           {noteList.length > 0 &&

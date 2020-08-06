@@ -17,6 +17,7 @@ function App() {
     setNote(clickedNote)
     toggleNoteEditable(false)
     localStorage.setItem("notes", JSON.stringify(newNoteList))
+    toggleHideDetails(!hideDetails)
   }
 
   const createNewNote = () => {
@@ -36,7 +37,6 @@ function App() {
 
   useEffect(() => {  
     const initNoteList = JSON.parse(localStorage.getItem('notes'))
-    console.log(initNoteList)
     if (initNoteList.length > 0) {
       setNoteList(initNoteList
         .sort((a, b) => b.createdDate - a.createdDate))
@@ -60,6 +60,7 @@ function App() {
           setNoteList={setNoteList}
           noteEditable={noteEditable}
           toggleNoteEditable={toggleNoteEditable}
+          backToList={toggleHideDetails}
         />
       }
     </div>
