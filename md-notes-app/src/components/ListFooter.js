@@ -1,17 +1,17 @@
 import React from 'react';
-import './Nav.css';
+import './Footer.css';
 
-const Nav = (props) => {
+const ListFooter = (props) => {
   return (
-    <div className="nav-btns">
+    <footer className="footer-btns">
       <div>
         <button className="btn">Notes</button>
       </div>
       <div>
         <button className="btn">TO-dos</button>
       </div>
-    </div>
+    </footer>
   )
 }
 
-export default Nav;
+export default ListFooter;

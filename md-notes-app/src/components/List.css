@@ -1,0 +1,13 @@
+header {
+  height: 4rem;
+}
+
+main {
+  height: calc(100vh - 7rem);
+  overflow: hidden;
+}
+
+nav {
+  height: 3rem;
+}
+

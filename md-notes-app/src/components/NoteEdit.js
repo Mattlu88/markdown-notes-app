@@ -16,7 +16,7 @@ const NoteEdit = (props) => {
 
   const createNoteInHTML = () => {
     const noteInHTML = new showdown.Converter().makeHtml(note.content)
-    return {__html: noteInHTML }
+    return { __html: noteInHTML }
   }
 
   useEffect(() => {
