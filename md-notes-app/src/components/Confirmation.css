@@ -1,0 +1,29 @@
+.confirmation {
+  position: fixed;
+  bottom: 1rem;
+  width: 100%;
+  text-align: center;
+}
+
+.confirmation > div {
+  max-width: 80%;
+  margin: auto; 
+  background-color: black;
+}
+
+.confirmation-btns div {
+  display: flex;
+}
+
+.confirmation button {
+  flex: 1 0 50%;
+  background: transparent;
+}
+
+.confirmation button, .confirmation p {
+  color: white;
+}
+
+#delete-btn {
+  color: red;
+}

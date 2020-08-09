@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import NoteList from './components/NoteList';
-import NoteDetails from './components/NoteDetails';
-import './App.css';
+import List from './components/List';
+import Details from './components/Details';
 import noteService from './services/notes'
+import NoteList from './components/NoteList';
+import Toolbar from './components/Toolbar';
+import NoteEdit from './components/NoteEdit';
+import DetailsFooter from './components/DetailsFooter';
+import './App.css';
 
 function App() {
-  const [noteList, setNoteList] = useState([])
-  const [note, setNote] = useState(noteList[0])
-  const [noteEditable, toggleNoteEditable] = useState(false)
-  const [hideDetails, toggleHideDetails] = useState(true)
-  const handleClickNote = (clickedNote) => {
+  const notes = noteService
+    .getNotes()
+    .sort((a, b) => b.createdDate - a.createdDate);
+  
+  const [noteList, setNoteList] = useState(notes)
+  const [note, setNote] = useState(notes[0])
+  const [editDetails, setEditDetails] = useState(false)
+  const [hideDetails, setHideDetails] = useState(true)
 
-    const newNoteList = noteService.getNewNoteList(note, noteList)
-    setNoteList(newNoteList)
+  const handleClickNote = (clickedNote) => {
     setNote(clickedNote)
-    toggleNoteEditable(false)
-    localStorage.setItem("notes", JSON.stringify(newNoteList))
-    toggleHideDetails(!hideDetails)
+    setEditDetails(false)
+    setHideDetails(false)
   }
 
   const createNewNote = () => {
@@ -29,39 +34,73 @@ function App() {
       createdDate: Date.parse(today),
       createdBy: 'Fei Lu'
     }
-    setNoteList([newNote].concat(noteList))
+    setNoteList([newNote, ...noteList])
     setNote(newNote)
-    toggleNoteEditable(!noteEditable)
-    toggleHideDetails(!hideDetails)
+    setEditDetails(!editDetails)
+    setHideDetails(false)
   }
 
-  useEffect(() => {  
-    const initNoteList = JSON.parse(localStorage.getItem('notes'))
-    if (initNoteList.length > 0) {
-      setNoteList(initNoteList
-        .sort((a, b) => b.createdDate - a.createdDate))
-      setNote(initNoteList[0])
-    }
-  }, [])
+  const deleteNote = () => {
+    const noteIndex = noteList.findIndex((n) => n.id === note.id)
+    const newNoteList = noteList.filter((n) => n.id !== note.id)
+    setNoteList(newNoteList)
+    localStorage.setItem("notes", JSON.stringify(newNoteList))
+    const newCurrentNote = noteIndex === newNoteList.length
+      ? newNoteList[noteIndex - 1]
+      : newNoteList[noteIndex]
+    setNote(newCurrentNote)
+    setHideDetails(true);
+  }
+
+  const saveNote = () => {
+    const newNoteList = noteService.getNewNoteList(note, noteList)
+    setNoteList(newNoteList)
+    localStorage.setItem("notes", JSON.stringify(newNoteList))
+    setEditDetails(false)
+  }
+
+  const cancelNote = () => {
+    const preNote = noteList.find((n) => n.id === note.id)
+    setNote(preNote)
+    setEditDetails(false)
+  }
+
+  const editNote = () => {
+    setEditDetails(true)
+  }
 
   return (
     <div className="App">
       { hideDetails ? 
-        <NoteList 
-          createNewNote={createNewNote}
-          noteList={noteList}
-          handleClickNote={handleClickNote}
-          currentNote={note}
-        /> :
-        <NoteDetails
-          note={note}
-          setNote={setNote}
-          noteList={noteList}
-          setNoteList={setNoteList}
-          noteEditable={noteEditable}
-          toggleNoteEditable={toggleNoteEditable}
-          backToList={toggleHideDetails}
-        />
+        <List addNew={createNewNote}>
+          <NoteList 
+            noteList={noteList} 
+            onClick={handleClickNote}
+            currentNote={note}
+          />
+        </List> :
+        <Details
+          toolbar={
+            <Toolbar 
+               editable={editDetails}
+               handleClickBack={() => setHideDetails(true)}
+               handleClickSave={saveNote}
+               handleClickCancel={cancelNote}
+               handleClickEdit={editNote}
+            />
+          }
+          main={
+            <NoteEdit 
+              note={note}
+              setNote={setNote}
+              noteEditable={editDetails}
+            />
+          }
+          footer={
+            <DetailsFooter confirmDelete={deleteNote}/>
+          }
+        >
+        </Details>
       }
     </div>
   );

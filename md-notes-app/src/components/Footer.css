@@ -1,13 +1,17 @@
-.nav-btns {
+footer {
+  height: 3rem;
+}
+
+.footer-btns {
   display: flex;
 
 }
 
-.nav-btns div {
+.footer-btns div {
   flex: 1 0 auto;
 }
 
-.btn {
+.footer-btns button {
   background: transparent;
   border: none;
   width: 100%;

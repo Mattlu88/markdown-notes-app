@@ -1,11 +1,11 @@
 import React from 'react';
 
 const CreateBtn = (props) => {
-  const { createNewNote } = props;
+  const { handleOnClick } = props;
 
   return (
     <div>
-      <button onClick={createNewNote}>New</button>
+      <button onClick={handleOnClick}>New</button>
     </div>
   )
 }

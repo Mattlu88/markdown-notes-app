@@ -1,3 +1,8 @@
+const getNotes = () => {
+  const notes = JSON.parse(localStorage.getItem('notes'))
+  return !notes ? [] : notes;
+}
+
 const getNewNoteList = (newNote, noteList) => {
   if (noteList.find((n) => n.id === newNote.id)) {
     return noteList.map((n) =>
@@ -7,4 +12,4 @@ const getNewNoteList = (newNote, noteList) => {
   }
 }
 
-export default { getNewNoteList }
+export default { getNewNoteList, getNotes }
