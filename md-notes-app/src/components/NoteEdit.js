@@ -3,14 +3,27 @@ import showdown from 'showdown'
 import './NoteEdit.css'
 
 const NoteEdit = (props) => {
-  const { note, setNote, noteEditable } = props
+  const {
+    note,
+    setNote,
+    noteEditable,
+    setNoteEditable,
+    initNote,
+    setDataChanged
+  } = props
   
   const contentInput = useRef(null)
   const handleTitleChange  = (event) => {
+    if (note.title !== initNote.title) {
+      setDataChanged(true)
+    }
     setNote({ ...note, title: event.target.value})
   }
 
   const handleContentChange  = (event) => {
+    if (note.content !== initNote.content) {
+      setDataChanged(true)
+    }
     setNote({ ...note, content: event.target.value})
   }
 
@@ -33,6 +46,7 @@ const NoteEdit = (props) => {
           onChange={handleTitleChange}
           placeholder="Title"
           readOnly={!noteEditable}
+          onClick={() => setNoteEditable(true)}
         />
       </div>
       <div>
@@ -41,6 +55,7 @@ const NoteEdit = (props) => {
             id="note-content-input"
             ref={contentInput}
             dangerouslySetInnerHTML={createNoteInHTML()}
+            onClick={() => setNoteEditable(true)}
           >
           </div> :
           <textarea 

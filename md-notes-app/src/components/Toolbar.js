@@ -8,6 +8,7 @@ const Toolbar = (props) => {
     handleClickSave,
     handleClickCancel,
     handleClickEdit,
+    dataChanged,
    } = props
 
   return (
@@ -21,7 +22,11 @@ const Toolbar = (props) => {
         { !editable && 
           <button onClick={handleClickEdit}>Edit</button> }
         { editable && 
-          <button onClick={handleClickSave}>Save</button> }
+          <button 
+            disabled={!dataChanged} 
+            onClick={handleClickSave}
+          >Save
+          </button> }
         { editable && 
           <button onClick={handleClickCancel}>Cancel</button> }
       </div>

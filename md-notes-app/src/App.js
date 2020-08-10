@@ -18,9 +18,13 @@ function App() {
   const [note, setNote] = useState(notes[0])
   const [editDetails, setEditDetails] = useState(false)
   const [hideDetails, setHideDetails] = useState(true)
+  const [dataChanged, setDataChanged] = useState(false)
+  const [initNote, setInitNote] = useState();
 
   const handleClickNote = (clickedNote) => {
     setNote(clickedNote)
+    setInitNote(clickedNote)
+    setDataChanged(false)
     setEditDetails(false)
     setHideDetails(false)
   }
@@ -34,35 +38,44 @@ function App() {
       createdDate: Date.parse(today),
       createdBy: 'Fei Lu'
     }
-    setNoteList([newNote, ...noteList])
+    //setNoteList([newNote, ...noteList])
     setNote(newNote)
-    setEditDetails(!editDetails)
+    setInitNote(newNote)
+    setDataChanged(false)
+    setEditDetails(true)
     setHideDetails(false)
   }
 
   const deleteNote = () => {
     const noteIndex = noteList.findIndex((n) => n.id === note.id)
-    const newNoteList = noteList.filter((n) => n.id !== note.id)
-    setNoteList(newNoteList)
-    localStorage.setItem("notes", JSON.stringify(newNoteList))
+    noteService.deleteNote(note)
+    const newNoteList = noteService.getNotes();
     const newCurrentNote = noteIndex === newNoteList.length
       ? newNoteList[noteIndex - 1]
       : newNoteList[noteIndex]
+    setNoteList(newNoteList)
     setNote(newCurrentNote)
-    setHideDetails(true);
+    setHideDetails(true)
   }
 
   const saveNote = () => {
-    const newNoteList = noteService.getNewNoteList(note, noteList)
-    setNoteList(newNoteList)
-    localStorage.setItem("notes", JSON.stringify(newNoteList))
+    if (noteList.find(n => n.id === note.id) !== undefined) {
+      noteService.updateNote(note)
+    } else {
+      noteService.addNewNote(note)
+    }
+    setNoteList(noteService.getNotes)
     setEditDetails(false)
   }
 
   const cancelNote = () => {
-    const preNote = noteList.find((n) => n.id === note.id)
-    setNote(preNote)
-    setEditDetails(false)
+    if (noteList.find((n) => n.id === note.id) !== undefined) {
+      setNote(initNote)
+      setEditDetails(false)
+    } else {
+      setNote(noteList[0])
+      setHideDetails(true)
+    }
   }
 
   const editNote = () => {
@@ -87,6 +100,7 @@ function App() {
                handleClickSave={saveNote}
                handleClickCancel={cancelNote}
                handleClickEdit={editNote}
+               dataChanged={dataChanged}
             />
           }
           main={
@@ -94,6 +108,9 @@ function App() {
               note={note}
               setNote={setNote}
               noteEditable={editDetails}
+              setNoteEditable={setEditDetails}
+              initNote={initNote}
+              setDataChanged={setDataChanged}
             />
           }
           footer={
