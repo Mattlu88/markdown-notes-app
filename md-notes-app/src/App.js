@@ -14,14 +14,16 @@ function App() {
     .getNotes()
     .sort((a, b) => b.createdDate - a.createdDate);
   
-  const [noteList, setNoteList] = useState(notes)
-  const [note, setNote] = useState(notes[0])
   const [editDetails, setEditDetails] = useState(false)
   const [hideDetails, setHideDetails] = useState(true)
   const [dataChanged, setDataChanged] = useState(false)
-  const [initNote, setInitNote] = useState();
+  const [currRow, setCurrRow] = useState(0)
+  const [noteList, setNoteList] = useState(notes)
+  const [note, setNote] = useState(currRow)
+  const [initNote, setInitNote] = useState()
 
   const handleClickNote = (clickedNote) => {
+    setCurrRow(noteList.indexOf(clickedNote));
     setNote(clickedNote)
     setInitNote(clickedNote)
     setDataChanged(false)
@@ -47,14 +49,12 @@ function App() {
   }
 
   const deleteNote = () => {
-    const noteIndex = noteList.findIndex((n) => n.id === note.id)
     noteService.deleteNote(note)
     const newNoteList = noteService.getNotes();
-    const newCurrentNote = noteIndex === newNoteList.length
-      ? newNoteList[noteIndex - 1]
-      : newNoteList[noteIndex]
+    if (currRow === newNoteList.length) {
+      setCurrRow(currRow - 1)
+    }
     setNoteList(newNoteList)
-    setNote(newCurrentNote)
     setHideDetails(true)
   }
 
@@ -63,6 +63,7 @@ function App() {
       noteService.updateNote(note)
     } else {
       noteService.addNewNote(note)
+      setCurrRow(0)
     }
     setNoteList(noteService.getNotes)
     setEditDetails(false)
@@ -73,7 +74,7 @@ function App() {
       setNote(initNote)
       setEditDetails(false)
     } else {
-      setNote(noteList[0])
+      //setNote(noteList[currRow])
       setHideDetails(true)
     }
   }
@@ -89,7 +90,7 @@ function App() {
           <NoteList 
             noteList={noteList} 
             onClick={handleClickNote}
-            currentNote={note}
+            currRow={currRow}
           />
         </List> :
         <Details

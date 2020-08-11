@@ -2,13 +2,12 @@ import React, { useEffect } from 'react'
 import './NoteList.css'
 
 const Note = (props) => {
-  const { note, showNoteDetail, currentNote } = props
-  const style = note.id === currentNote.id ? 'current-note' : ''
+  const { note, showNoteDetail, className } = props
   const date = new Date(note.createdDate)
 
   return (  
     <tr 
-      className={style}
+      className={className}
       onClick={() => showNoteDetail(note)}
       id={note.id}>
       <td className="note-title">
@@ -25,10 +24,11 @@ const Note = (props) => {
 }
 
 const NoteList = (props) => {
-  const { noteList, onClick, currentNote } = props
+  const { noteList, onClick, currRow } = props
   console.log('rendering NoteList')
 
   useEffect(() => {
+    const currentNote = noteList[currRow]
     if (currentNote) {
       const currentTrElement = document.getElementById(currentNote.id)
       currentTrElement.scrollIntoView({ block: 'center' })
@@ -40,13 +40,17 @@ const NoteList = (props) => {
       <table>
         { noteList.length > 0 && 
           <tbody>
-            {noteList.map((note) =>
-              <Note 
-                key={note.id}
-                note={note}
-                showNoteDetail={onClick}
-                currentNote={currentNote}
-              />)}
+            {noteList.map((note, index) => {
+              const className = index === currRow ? 'current-row' : ''
+              return (
+                <Note 
+                  key={note.id}
+                  note={note}
+                  showNoteDetail={onClick}
+                  className={className}
+                />
+              )
+            })}
           </tbody>
         }
       </table>
