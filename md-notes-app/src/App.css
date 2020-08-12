@@ -2,17 +2,6 @@
   height: 100vh;
 }
 
-main > aside {
-  border-right: solid 1px lightblue;
-  height:inherit;
-  overflow-y:auto;
-}
-
-main > section {
-  flex: 3;
-  padding: 0px 20px;
-}
-
 .modal {
   position: fixed;
   z-index: 1;

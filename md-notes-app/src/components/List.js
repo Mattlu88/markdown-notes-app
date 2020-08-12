@@ -10,8 +10,6 @@ const List = (props) => {
     addNew, 
   } = props;
 
-  console.log('rending List')
-  console.log(props.children);
   return (
     <div>
       <header>
@@ -19,8 +17,12 @@ const List = (props) => {
         <CreateBtn handleOnClick={addNew}/>
       </header>
       <main>
-        <Search />
-        {props.children}
+        <section className="search">
+          {props.search}
+        </section>
+        <section className="list">
+          {props.list}
+        </section>
       </main>
       <ListFooter />
     </div>

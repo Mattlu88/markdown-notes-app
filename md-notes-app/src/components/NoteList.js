@@ -25,7 +25,6 @@ const Note = (props) => {
 
 const NoteList = (props) => {
   const { noteList, onClick, currRow } = props
-  console.log('rendering NoteList')
 
   useEffect(() => {
     const currentNote = noteList[currRow]

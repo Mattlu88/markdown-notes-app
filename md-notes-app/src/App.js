@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 import List from './components/List';
 import Details from './components/Details';
 import noteService from './services/notes'
+import Search from './components/Search';
 import NoteList from './components/NoteList';
 import Toolbar from './components/Toolbar';
 import NoteEdit from './components/NoteEdit';
@@ -83,15 +84,33 @@ function App() {
     setEditDetails(true)
   }
 
+  const filterNoteList = (filterText) => {
+    const reg = new RegExp(filterText, "i")
+    const newNoteList = noteService.getNotes();
+    const filteredNotes = newNoteList.filter((n) => 
+      reg.test(n.title) || reg.test(n.content)
+    )
+    setNoteList(filteredNotes)
+  }
+
   return (
     <div className="App">
       { hideDetails ? 
-        <List addNew={createNewNote}>
-          <NoteList 
-            noteList={noteList} 
-            onClick={handleClickNote}
-            currRow={currRow}
-          />
+        <List 
+          addNew={createNewNote}
+          search={
+            <Search
+              filterList={filterNoteList}
+            />
+          }
+          list={
+            <NoteList 
+              noteList={noteList} 
+              onClick={handleClickNote}
+              currRow={currRow}
+            />
+          }
+        >
         </List> :
         <Details
           toolbar={
