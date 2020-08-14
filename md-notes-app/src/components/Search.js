@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 
 const Search = (props) => {
   const { filterList } = props
@@ -14,7 +14,6 @@ const Search = (props) => {
       <input 
         type="text" 
         placeholder="search"
-   //     value={searchText}
         onChange={handleOnchange}
       />
     </div>

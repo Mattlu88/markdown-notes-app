@@ -1,8 +1,6 @@
 import React from 'react';
 import Title from './Title';
 import CreateBtn from './CreateBtn';
-import Search from './Search';
-import ListFooter from './ListFooter';
 import './List.css';
 
 const List = (props) => {
@@ -13,7 +11,7 @@ const List = (props) => {
   return (
     <div>
       <header>
-        <Title />
+        {props.title}
         <CreateBtn handleOnClick={addNew}/>
       </header>
       <main>
@@ -24,7 +22,7 @@ const List = (props) => {
           {props.list}
         </section>
       </main>
-      <ListFooter />
+      {props.footer}
     </div>
   )
 }

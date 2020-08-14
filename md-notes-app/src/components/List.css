@@ -1,5 +1,7 @@
 header {
   height: 4rem;
+  display: flex;
+  justify-content: space-between;
 }
 
 main {
@@ -21,3 +23,10 @@ nav {
   height: 3rem;
 }
 
+.notes-btn {
+  color: blue;
+}
+
+.todos-btn {
+  color: blue;
+}
